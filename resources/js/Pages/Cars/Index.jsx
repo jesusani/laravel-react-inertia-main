@@ -104,8 +104,8 @@ export default function Dashboard(props) {
         });
     }
 
-    const isAuthorized = props.auth.user.roles.includes('user');
-    const isArray = Array.isArray(props.auth.user.roles);
+    //como no consigo ver si incluye el rol adecuado cuento los roles
+    const isAuthorized = props.auth.user.roles.length>1;
 
     return (
         <AuthenticatedLayout
@@ -123,12 +123,7 @@ export default function Dashboard(props) {
             }
             
 
-        > {  isArray ?
-                props.auth.user.roles.map((per,i) => (
-                    <span key={i+1}>
-                                <span className='border border-gray-400 px-2 py-2'>Roles of {per.name  + isAuthorized}     </span>
-                     </span>
-      ) ) : props.auth.user.permissions.name } 
+        >  
       
      
      
@@ -145,7 +140,7 @@ export default function Dashboard(props) {
                     </PrimaryButton>
                  </div>
                 </div>
-                : 'isAuthorized'
+                : ''
             }
 
             <div className="bg-white grid v-screen place-items-center py-6">
@@ -169,18 +164,19 @@ export default function Dashboard(props) {
                                 <td className='border border-gray-400 px-2 py-2'>
                                     <i className={'fa-solid fa-car text-'+car.color+'-600'}></i>
                                 </td>
-                                <td className='border border-gray-400 px-2 py-2'>
+                                {isAuthorized ?<td className='border border-gray-400 px-2 py-2'>
                                     <WarningButton
                                      onClick={() =>openModal(2,car.id,car.make,car.model,car.color)}>
                                         <i className='fa-solid fa-edit'></i>
                                     </WarningButton>
-                                </td>
-                                <td className='border border-gray-400 px-2 py-2'>
+                                </td> : ''}
+
+                                {isAuthorized ?<td className='border border-gray-400 px-2 py-2'>
                                     <DangerButton 
                                     onClick={() => eliminar(car.id,car.make)}>
                                         <i className='fa-solid fa-trash'></i>
                                     </DangerButton>
-                                </td>
+                                </td>: ''}
                             </tr>
                         ))}
                     </tbody>
