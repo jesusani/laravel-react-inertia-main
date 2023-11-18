@@ -1,3 +1,7 @@
+#modificación ampliación del proyecto siguiente
+
+He metido los roles con Spatie y permisos y ampliando a tablas relacionadas
+
 # CRUD Laravel + React + Inertia    (LaraReactCars)
 
 ## CRUD con login en Laravel 9 y React
