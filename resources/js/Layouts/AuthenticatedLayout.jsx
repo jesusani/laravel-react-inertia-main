@@ -4,10 +4,13 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
+import { defineProps } from 'vue';
 
-export default function Authenticated({ auth, header, children }) {
+export default function Authenticated(props) {
+    //defineProps({ auth: Array, header: Array, children:Array });
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
+    const isAuthorized = true;/*  props.auth.user.roles.length>2; */
+    console.log(props);
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="bg-white border-b border-gray-100">
@@ -30,6 +33,11 @@ export default function Authenticated({ auth, header, children }) {
                                     Cars
                                 </NavLink>
                             </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('cars.index')} active={route().current('cars.index')}>
+                                    Pacientes
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
@@ -41,7 +49,7 @@ export default function Authenticated({ auth, header, children }) {
                                                 type="button"
                                                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {auth.user.name}
+                                                {props.auth.user.name}
 
                                                 <svg
                                                     className="ml-2 -mr-0.5 h-4 w-4"
@@ -60,7 +68,8 @@ export default function Authenticated({ auth, header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                    <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                   { isAuthorized ? <Dropdown.Link href={route('auth.register')}>Register</Dropdown.Link> : ''}
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
                                             Log Out
                                         </Dropdown.Link>
@@ -110,9 +119,9 @@ export default function Authenticated({ auth, header, children }) {
                     <div className="pt-4 pb-1 border-t border-gray-200">
                         <div className="px-4">
                             <div className="font-medium text-base text-gray-800">
-                                {auth.user.name}
+                                {props.auth.user.name}
                             </div>
-                            <div className="font-medium text-sm text-gray-500">{auth.user.email}</div>
+                            <div className="font-medium text-sm text-gray-500">{props.auth.user.email}</div>
                         </div>
 
                         <div className="mt-3 space-y-1">
@@ -125,13 +134,13 @@ export default function Authenticated({ auth, header, children }) {
                 </div>
             </nav>
 
-            {header && (
+            {props.header && (
                 <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
+                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{props.header}</div>
                 </header>
             )}
 
-            <main>{children}</main>
+            <main>{props.children}</main>
         </div>
     );
 }

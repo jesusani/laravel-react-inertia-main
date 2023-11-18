@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\CarsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,7 @@ use App\Http\Controllers\CarsController;
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+        /* 'canRegister' => Route::has('register'), */
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
@@ -37,7 +39,12 @@ Route::middleware('auth')->group(function () {
     //Route::group(['middleware' => ['can:admin']], function () {
         Route::resource('cars', CarsController::class);
    // });
-    
+  // Route::get('/auth/register', [RegisteredUserController::class,'create'])->name('auth.register');
+   Route::get('/Auth/register', function () {
+    return Inertia::render('Auth/register', [
+         'canRegister' => Route::has('auth.register'), 
+    ]);
+})->name('auth.register');
 });
 
 

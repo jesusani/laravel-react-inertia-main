@@ -105,7 +105,15 @@ export default function Dashboard(props) {
     }
 
     //como no consigo ver si incluye el rol adecuado cuento los roles
-    const isAuthorized = props.auth.user.roles.length>1;
+    //const isAuthorized = props.roles.length>1;
+    
+    const isAuthorized = props.roles[0][0]['name'] === 'admin' || props.roles[0][0]['name'] === 'fisio';
+    console.log(isAuthorized);
+  /*  array_keys() - Devuelve todas las claves de un array o un subconjunto de claves de un array
+array_values() - Devuelve todos los valores de un array
+array_key_exists() - Verifica si el índice o clave dada existe en el array
+ const isAuthorized = in_array(props.roles); //- Comprueba si un valor existe en un array
+*/
 
     return (
         <AuthenticatedLayout
@@ -136,11 +144,11 @@ export default function Dashboard(props) {
                  <div className='mt-3 mb-3 flex justify-end'>
                     <PrimaryButton onClick={() =>openModal(1)}>
                         <i className='fa-solid fa-plus-circle'></i>
-                        Añadir
+                        Añadir  {isAuthorized.toString()}
                     </PrimaryButton>
                  </div>
                 </div>
-                : ''
+                : 'no isAuthorized' + isAuthorized
             }
 
             <div className="bg-white grid v-screen place-items-center py-6">

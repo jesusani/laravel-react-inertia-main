@@ -13,10 +13,14 @@ class CarsController extends Controller
     public function index()
     {
         $cars = Cars::all();
-        $user = Auth::user()->roles; 
-        $users = Auth::user()->permissions;
 
-        return Inertia::render('Cars/Index',['cars'=>$cars,'user'=>$user,'permissions'=>$users]);
+
+        $roles = [Auth::user()->roles, Auth::user()->permissions];
+        //$roles = [User::with('roles')->get(),  User::with('permissions')->get()];
+       
+        
+
+        return Inertia::render('Cars/Index',['cars'=>$cars, 'roles'=>$roles]);
     }
 
     public function store(Request $request)
